@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SEBO.Domain.ViewModel.DTO.IdentityDTO
+namespace SEBO.API.Domain.ViewModel.DTO.IdentityDTO
 {
     public class CreateUserDTO
     {

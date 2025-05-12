@@ -1,8 +1,8 @@
 ﻿using SEBO.API.Domain.Entities.ProductAggregate;
-using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
-using SEBO.API.Repository.ProductAggregate;
 using SEBO.API.Domain.Utility.Exceptions;
+using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
 using SEBO.API.Repository.IdentityAggregate;
+using SEBO.API.Repository.ProductAggregate;
 
 namespace SEBO.API.Services
 {
@@ -25,7 +25,7 @@ namespace SEBO.API.Services
             if (user == null) throw new NotFoundException("User not found");
 
             var category = await _categoryRepository.GetById(createItemDto.CategoryId);
-            if (category == null) throw new NotFoundException("Category not found");   
+            if (category == null) throw new NotFoundException("Category not found");
 
             var item = new Item()
             {
@@ -38,7 +38,7 @@ namespace SEBO.API.Services
                 Title = createItemDto.Title,
             };
 
-           return await _itemRepository.Add(item);
+            return await _itemRepository.Add(item);
         }
 
         public async Task<Item> UpdateItem(UpdateItemDto updateItemDto)

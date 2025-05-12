@@ -1,4 +1,4 @@
-﻿using SEBO.Data.Repository.Base;
+﻿using SEBO.API.Data.Repository.Base;
 using SEBO.API.Domain.Entities.Base;
 
 namespace SEBO.Services

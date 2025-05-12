@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SEBO.Data.Repository.Base;
+using SEBO.API.Data.Repository.Base;
 using SEBO.API.Data;
 using SEBO.API.Domain.Entities.ProductAggregate;
 

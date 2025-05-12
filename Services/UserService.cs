@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SEBO.API.Domain.Entities.IdentityAggregate;
+using SEBO.API.Domain.ViewModel.DTO.IdentityDTO;
 using SEBO.API.Repository.IdentityAggregate;
 using SEBO.Domain.ViewModel.DTO.IdentityDTO;
 
