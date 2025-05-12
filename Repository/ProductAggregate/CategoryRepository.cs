@@ -1,4 +1,4 @@
-﻿using MKW.Data.Repository.Base;
+﻿using SEBO.Data.Repository.Base;
 using SEBO.API.Data;
 using SEBO.API.Domain.Entities.ProductAggregate;
 

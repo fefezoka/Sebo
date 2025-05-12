@@ -4,7 +4,7 @@ using SEBO.API.Domain.Entities.Base;
 using System.Linq.Expressions;
 using SEBO.API.Domain.Utility.Abstractions;
 
-namespace MKW.Data.Repository.Base
+namespace SEBO.Data.Repository.Base
 {
     public class BaseRepository<TEntity> where TEntity : BaseEntity
     {

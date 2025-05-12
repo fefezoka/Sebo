@@ -1,7 +1,7 @@
-﻿using MKW.Data.Repository.Base;
+﻿using SEBO.Data.Repository.Base;
 using SEBO.API.Domain.Entities.Base;
 
-namespace MKW.Services.AppServices.Base
+namespace SEBO.Services
 {
     public class BaseService<T> where T : BaseEntity
     {

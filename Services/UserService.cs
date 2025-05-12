@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MKW.Domain.Dto.DTO.IdentityDTO.Account;
 using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Repository.IdentityAggregate;
+using SEBO.Domain.ViewModel.DTO.IdentityDTO;
 
 namespace SEBO.API.Services
 {

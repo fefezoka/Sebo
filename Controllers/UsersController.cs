@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MKW.Domain.Dto.DTO.IdentityDTO.Account;
 using SEBO.API.Services;
+using SEBO.Domain.ViewModel.DTO.IdentityDTO;
 
 namespace SEBO.API.Controllers
 {
