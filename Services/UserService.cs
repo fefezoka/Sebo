@@ -36,6 +36,8 @@ namespace SEBO.API.Services
 
         public async Task<IdentityResult> UpdateUser(UpdateUserDto updateUserDto)
         {
+            var userId = GetUserIdFromClaims();
+
             var applicationUser = new ApplicationUser()
             {
                 UserName = updateUserDto.UserName,
@@ -44,15 +46,24 @@ namespace SEBO.API.Services
                 FirstName = updateUserDto.FirstName,
             };
 
-            //TODO: ARRUMAR ID QUANDO IMPLEMENTAR JWT
-            var (result, user) = await _userRepository.UpdateUserAsync(1, applicationUser);
+            var (result, newUser) = await _userRepository.UpdateUserAsync(userId, applicationUser);
 
             return result;
         }
 
+        public string GetUserEmailFromClaims()
+        {
+            return _httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+        }
+
+        public int GetUserIdFromClaims()
+        {
+            return int.Parse(_httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value);
+        }
+
         public async Task<ApplicationUser> GetUser()
         {
-            var email = _httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            var email = GetUserEmailFromClaims();
             return await _userRepository.GetUserByEmailAsync(email) ?? throw new NotFoundException("User not found.");
         }
     }

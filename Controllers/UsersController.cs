@@ -43,12 +43,5 @@ namespace SEBO.API.Controllers
             var loginResult = await _authenticationService.LoginByUserNameAsync(loginRequestDTO);
             return loginResult.IsSuccess ? Ok(loginResult) : Unauthorized(loginResult);
         }
-
-        [HttpGet("teste")]
-        [Authorize]
-        public async Task<ActionResult<ApplicationUser>> getUSER()
-        {
-            return await _userService.GetUser();
-        }
     }
 }
