@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SEBO.API.Domain.Entities.ProductAggregate;
 using SEBO.API.Domain.ViewModel.DTO.TransactionDTO;
 using SEBO.API.Services;
@@ -17,10 +18,11 @@ namespace SEBO.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Item>> PostTransaction([FromBody] CreateTransactionDTO createTransactionDto)
             => Ok(await _transactionService.AddTransaction(createTransactionDto));
 
-        [HttpGet("{id:int}")]
+        [HttpGet("user/{id:int}")]
         public async Task<ActionResult<IEnumerable<Transaction>>> GetByUserId([FromRoute] int id) => Ok(await _transactionService.GetByUserId(id));
     }
 }

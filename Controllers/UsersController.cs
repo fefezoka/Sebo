@@ -1,6 +1,8 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO;
 using SEBO.API.Services;
 using SEBO.API.Services.AppServices.IdentityService;
@@ -29,6 +31,7 @@ namespace SEBO.API.Controllers
         }
 
         [HttpPost("update")]
+        [Authorize]
         public async Task<ActionResult<IdentityResult>> UpdateUser([FromBody] UpdateUserDto updateUserDto)
         {
             return await _userService.UpdateUser(updateUserDto);
@@ -39,6 +42,13 @@ namespace SEBO.API.Controllers
         {
             var loginResult = await _authenticationService.LoginByUserNameAsync(loginRequestDTO);
             return loginResult.IsSuccess ? Ok(loginResult) : Unauthorized(loginResult);
+        }
+
+        [HttpGet("teste")]
+        [Authorize]
+        public async Task<ActionResult<ApplicationUser>> getUSER()
+        {
+            return await _userService.GetUser();
         }
     }
 }

@@ -42,8 +42,9 @@ namespace SEBO.API.Services.AppServices.IdentityService
             accessClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()));
             accessClaims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
             accessClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())); //Json Token Identifier
-            accessClaims.Add(new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString())); //Not Before
-            accessClaims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString())); //Issued at
+            var now = DateTimeOffset.UtcNow;
+            accessClaims.Add(new Claim(JwtRegisteredClaimNames.Nbf, now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64));
+            accessClaims.Add(new Claim(JwtRegisteredClaimNames.Iat, now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64));
 
             var refreshClaims = new List<Claim>(accessClaims);
 

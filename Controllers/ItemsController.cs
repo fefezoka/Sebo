@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SEBO.API.Domain.Entities.ProductAggregate;
 using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
@@ -24,12 +25,15 @@ namespace SEBO.API.Controllers
         public async Task<ActionResult<Item>> GetItem([FromRoute]int id) => Ok(await _itemService.GetById(id));
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Item>> PostItem([FromBody] CreateItemDto createItemDto) => Ok(await _itemService.AddItem(createItemDto));
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<Item>> PutItem([FromBody] UpdateItemDto updateItemDto) => Ok(await _itemService.UpdateItem(updateItemDto));
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> DeleteItem([FromRoute] int id)
         {
             await _itemService.DeleteById(id);

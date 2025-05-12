@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SEBO.API.Data;
 using SEBO.API.Domain.Entities.IdentityAggregate;
 using System.Text;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace SEBO.API.IoC.Modules
 {
@@ -45,6 +47,30 @@ namespace SEBO.API.IoC.Modules
             {
                 options.TokenLifespan = TimeSpan.FromMinutes(30);
             });
+
+            var tokenValidationParameter = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = securityKey,
+
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero
+            };
+
+            builder.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = tokenValidationParameter;
+            });
+
         }
     }
 }
