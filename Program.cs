@@ -1,35 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SEBO.API.Data;
-using SEBO.API.Domain.Entities.IdentityAggregate;
-using SEBO.API.Repository.ProductAggregate;
-using SEBO.API.Repository.IdentityAggregate;
-using SEBO.API.Services;
-using Microsoft.AspNetCore.Identity;
-using SEBO.API.Services.AppServices.IdentityService;
-using Microsoft.IdentityModel.Tokens;
-using System.Configuration;
-using System.Text;
+using SEBO.API.Dependencies;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddScoped<CategoryRepository>();
-builder.Services.AddScoped<ItemRepository>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<TransactionRepository>();
-builder.Services.AddScoped<CategoryService>();
-builder.Services.AddScoped<ItemService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<TransactionService>();
-builder.Services.AddScoped<AuthenticationService>();
-builder.Services.AddScoped<TokenService>();
-
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-    .AddEntityFrameworkStores<SEBOContext>()
-    .AddDefaultTokenProviders();
 
 var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<SEBOContext>(options => { options.UseSqlServer(connString); });
@@ -65,43 +39,12 @@ builder.Services.AddSwaggerGen(swagger =>
      });
 });
 
+builder.Services.StartRegisterServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-var jwtOptionsSettings = builder.Configuration.GetSection(nameof(ApplicationJwtOptions));
-var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("ApplicationJwtOptions:SecurityKey").Value));
-
-builder.Services.Configure<ApplicationJwtOptions>(options =>
-{
-    options.Issuer = jwtOptionsSettings[nameof(ApplicationJwtOptions.Issuer)] ?? "";
-    options.Audience = jwtOptionsSettings[nameof(ApplicationJwtOptions.Audience)] ?? "";
-    options.SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
-    options.AccessTokenExpiration = int.Parse(jwtOptionsSettings[nameof(ApplicationJwtOptions.AccessTokenExpiration)] ?? "0");
-    options.RefreshTokenExpiration = int.Parse(jwtOptionsSettings[nameof(ApplicationJwtOptions.RefreshTokenExpiration)] ?? "0");
-});
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.Password.RequiredUniqueChars = 1;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireDigit = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequiredLength = 8;
-
-    options.User.RequireUniqueEmail = true;
-
-    options.SignIn.RequireConfirmedEmail = false;
-    options.Lockout.MaxFailedAccessAttempts = 5;
-});
-
-builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
-{
-    options.TokenLifespan = TimeSpan.FromMinutes(30);
-});
 
 var app = builder.Build();
 
