@@ -7,7 +7,7 @@ using SEBO.API.Domain.ViewModel.DTO.IdentityDTO;
 using SEBO.API.Repository.IdentityAggregate;
 using SEBO.Domain.ViewModel.DTO.IdentityDTO;
 
-namespace SEBO.API.Services
+namespace SEBO.API.Services.Identity
 {
     public class UserService
     {

@@ -2,6 +2,7 @@
 using SEBO.API.Repository.ProductAggregate;
 using SEBO.API.Services.AppServices.IdentityService;
 using SEBO.API.Services;
+using SEBO.API.Services.Identity;
 
 namespace SEBO.API.IoC.Modules
 {

@@ -4,9 +4,10 @@ using Microsoft.IdentityModel.Tokens;
 using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO;
+using SEBO.API.Services.AppServices.IdentityService;
 using System.Security.Claims;
 
-namespace SEBO.API.Services.AppServices.IdentityService
+namespace SEBO.API.Services.Identity
 {
     public class AuthenticationService
     {
@@ -100,7 +101,7 @@ namespace SEBO.API.Services.AppServices.IdentityService
                 if (result.RequiresTwoFactor) errorList.Add("RequiresTwoFactor");
             }
 
-            if (errorList.IsNullOrEmpty<string>())
+            if (errorList.IsNullOrEmpty())
                 errorList.Add("User or password are incorrect");
 
             return errorList;
