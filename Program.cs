@@ -16,7 +16,6 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<TransactionRepository>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<ItemService>();
-builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TransactionService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -72,6 +71,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapCustomIdentityApi<ApplicationUser>();
 
 app.UseHttpsRedirection();
 
