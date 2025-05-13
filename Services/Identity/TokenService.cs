@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
-namespace SEBO.API.Services.AppServices.IdentityService
+namespace SEBO.API.Services.Identity
 {
     public class TokenService
     {
@@ -27,7 +27,7 @@ namespace SEBO.API.Services.AppServices.IdentityService
                 var generatedAccessToken = new JwtSecurityTokenHandler().WriteToken(tokens.accessToken);
                 var generatedRefreshToken = new JwtSecurityTokenHandler().WriteToken(tokens.refreshToken);
 
-                return Result.Ok<ApplicationToken>(new ApplicationToken(generatedAccessToken, generatedRefreshToken, tokens.accessExpiration, tokens.refreshExpiration));
+                return Result.Ok(new ApplicationToken(generatedAccessToken, generatedRefreshToken, tokens.accessExpiration, tokens.refreshExpiration));
             }
             catch (Exception ex)
             {

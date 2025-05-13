@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SEBO.API.Domain.ViewModel.DTO.IdentityDTO;
+using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Authentication;
 using SEBO.API.Services.Identity;
 
 namespace SEBO.API.Controllers.Identity

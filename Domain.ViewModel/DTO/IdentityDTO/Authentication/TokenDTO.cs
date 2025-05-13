@@ -1,4 +1,4 @@
-﻿namespace SEBO.API.Domain.ViewModel.DTO.IdentityDTO
+﻿namespace SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Authentication
 {
     public class TokenDTO
     {

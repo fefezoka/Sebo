@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SEBO.API.Domain.ViewModel.DTO.IdentityDTO;
+using SEBO.API.Domain.Entities.IdentityAggregate;
+using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account;
 using SEBO.API.Services.Identity;
-using SEBO.Domain.ViewModel.DTO.IdentityDTO;
 
 namespace SEBO.API.Controllers.Identity
 {
@@ -19,18 +19,14 @@ namespace SEBO.API.Controllers.Identity
             _userService = userService;
         }
 
-
         [HttpPost("register")]
-        public async Task<ActionResult<IdentityResult>> RegisterAccount([FromBody] CreateUserDTO createUserRequest)
-        {
-            return await _userService.RegisterAccountAsync(createUserRequest);
-        }
+        public async Task<ActionResult<IdentityResult>> RegisterAccount([FromBody] CreateUserDTO createUserRequest) => Ok(await _userService.RegisterAccountAsync(createUserRequest));
 
         [HttpPost("update")]
         [Authorize]
-        public async Task<ActionResult<IdentityResult>> UpdateUser([FromBody] UpdateUserDto updateUserDto)
-        {
-            return await _userService.UpdateUser(updateUserDto);
-        }
+        public async Task<ActionResult<ReadUserDTO>> UpdateUser([FromBody] UpdateUserDto updateUserDto) =>  Ok(await _userService.UpdateUser(updateUserDto));
+       
+        [HttpGet("findAll")]
+        public async Task<ActionResult<IEnumerable<ReadUserDTO>>> FindAll() => Ok(await _userService.FindAll());
     }
 }

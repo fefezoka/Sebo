@@ -19,8 +19,7 @@ namespace SEBO.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Item>> PostTransaction([FromBody] CreateTransactionDTO createTransactionDto)
-            => Ok(await _transactionService.AddTransaction(createTransactionDto));
+        public async Task<ActionResult<Item>> PostTransaction([FromBody] CreateTransactionDTO createTransactionDto) => Ok(await _transactionService.AddTransaction(createTransactionDto));
 
         [HttpGet("user/{id:int}")]
         public async Task<ActionResult<IEnumerable<Transaction>>> GetByUserId([FromRoute] int id) => Ok(await _transactionService.GetByUserId(id));

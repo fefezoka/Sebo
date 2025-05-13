@@ -1,6 +1,5 @@
 ﻿using SEBO.API.Repository.IdentityAggregate;
 using SEBO.API.Repository.ProductAggregate;
-using SEBO.API.Services.AppServices.IdentityService;
 using SEBO.API.Services;
 using SEBO.API.Services.Identity;
 

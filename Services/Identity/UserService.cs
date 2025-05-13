@@ -1,11 +1,10 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Domain.Utility.Exceptions;
-using SEBO.API.Domain.ViewModel.DTO.IdentityDTO;
+using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account;
 using SEBO.API.Repository.IdentityAggregate;
-using SEBO.Domain.ViewModel.DTO.IdentityDTO;
 
 namespace SEBO.API.Services.Identity
 {
@@ -13,10 +12,12 @@ namespace SEBO.API.Services.Identity
     {
         private readonly UserRepository _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(UserRepository userRepository, IHttpContextAccessor httpContextAccessor)
+        private readonly IMapper _mapper;
+        public UserService(UserRepository userRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
         public async Task<IdentityResult> RegisterAccountAsync(CreateUserDTO createUserDto)
@@ -34,7 +35,7 @@ namespace SEBO.API.Services.Identity
             return result;
         }
 
-        public async Task<IdentityResult> UpdateUser(UpdateUserDto updateUserDto)
+        public async Task<ReadUserDTO> UpdateUser(UpdateUserDto updateUserDto)
         {
             var userId = GetUserIdFromClaims();
 
@@ -48,8 +49,10 @@ namespace SEBO.API.Services.Identity
 
             var (result, newUser) = await _userRepository.UpdateUserAsync(userId, applicationUser);
 
-            return result;
+            return _mapper.Map<ReadUserDTO>(newUser);
         }
+
+        public async Task<IEnumerable<ReadUserDTO>> FindAll() => _mapper.Map<IEnumerable<ReadUserDTO>>(await _userRepository.GetAllUsersAsync());
 
         public string GetUserEmailFromClaims()
         {
@@ -61,10 +64,10 @@ namespace SEBO.API.Services.Identity
             return int.Parse(_httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value);
         }
 
-        public async Task<ApplicationUser> GetUser()
+        public async Task<ReadUserDTO> GetUser()
         {
             var email = GetUserEmailFromClaims();
-            return await _userRepository.GetUserByEmailAsync(email) ?? throw new NotFoundException("User not found.");
+            return _mapper.Map<ReadUserDTO>(await _userRepository.GetUserByEmailAsync(email) ?? throw new NotFoundException("User not found."));
         }
     }
 }
