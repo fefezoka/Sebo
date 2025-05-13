@@ -26,11 +26,11 @@ namespace SEBO.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Item>> PostItem([FromBody] CreateItemDto createItemDto) => Ok(await _itemService.AddItem(createItemDto));
+        public async Task<ActionResult<Item>> PostItem([FromBody] CreateItemDTO createItemDTO) => Ok(await _itemService.AddItem(createItemDTO));
 
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult<Item>> PutItem([FromBody] UpdateItemDto updateItemDto) => Ok(await _itemService.UpdateItem(updateItemDto));
+        public async Task<ActionResult<Item>> PutItem([FromBody] UpdateItemDTO updateItemDTO) => Ok(await _itemService.UpdateItem(updateItemDTO));
 
         [HttpDelete("{id:int}")]
         [Authorize]

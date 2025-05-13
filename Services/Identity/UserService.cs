@@ -35,16 +35,16 @@ namespace SEBO.API.Services.Identity
             return result;
         }
 
-        public async Task<ReadUserDTO> UpdateUser(UpdateUserDto updateUserDto)
+        public async Task<ReadUserDTO> UpdateUser(UpdateUserDTO updateUserDTO)
         {
             var userId = GetUserIdFromClaims();
 
             var applicationUser = new ApplicationUser()
             {
-                UserName = updateUserDto.UserName,
-                LastName = updateUserDto.LastName,
-                Email = updateUserDto.Email,
-                FirstName = updateUserDto.FirstName,
+                UserName = updateUserDTO.UserName,
+                LastName = updateUserDTO.LastName,
+                Email = updateUserDTO.Email,
+                FirstName = updateUserDTO.FirstName,
             };
 
             var (result, newUser) = await _userRepository.UpdateUserAsync(userId, applicationUser);

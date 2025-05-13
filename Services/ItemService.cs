@@ -19,39 +19,39 @@ namespace SEBO.API.Services
             _userRepository = userRepository;
         }
 
-        public async Task<Item> AddItem(CreateItemDto createItemDto)
+        public async Task<Item> AddItem(CreateItemDTO createItemDTO)
         {
-            var user = await _userRepository.GetUserByIdAsync(createItemDto.SellerId);
+            var user = await _userRepository.GetUserByIdAsync(createItemDTO.SellerId);
             if (user == null) throw new NotFoundException("User not found");
 
-            var category = await _categoryRepository.GetById(createItemDto.CategoryId);
+            var category = await _categoryRepository.GetById(createItemDTO.CategoryId);
             if (category == null) throw new NotFoundException("Category not found");
 
             var item = new Item()
             {
-                Price = createItemDto.Price,
-                Author = createItemDto.Author,
-                CategoryId = createItemDto.CategoryId,
+                Price = createItemDTO.Price,
+                Author = createItemDTO.Author,
+                CategoryId = createItemDTO.CategoryId,
                 isOutOfStock = false,
-                Description = createItemDto.Description,
-                SellerId = createItemDto.SellerId,
-                Title = createItemDto.Title,
+                Description = createItemDTO.Description,
+                SellerId = createItemDTO.SellerId,
+                Title = createItemDTO.Title,
             };
 
             return await _itemRepository.Add(item);
         }
 
-        public async Task<Item> UpdateItem(UpdateItemDto updateItemDto)
+        public async Task<Item> UpdateItem(UpdateItemDTO updateItemDTO)
         {
-            var item = await _itemRepository.GetById(updateItemDto.ItemId);
+            var item = await _itemRepository.GetById(updateItemDTO.ItemId);
 
             if (item == null) throw new NotFoundException("Item not found");
 
-            item.SellerId = updateItemDto.SellerId;
-            item.Author = updateItemDto.Author;
-            item.isOutOfStock = updateItemDto.isOutOfStock;
-            item.Description = updateItemDto.Description;
-            item.Title = updateItemDto.Title;
+            item.SellerId = updateItemDTO.SellerId;
+            item.Author = updateItemDTO.Author;
+            item.isOutOfStock = updateItemDTO.isOutOfStock;
+            item.Description = updateItemDTO.Description;
+            item.Title = updateItemDTO.Title;
 
             return await _itemRepository.Update(item);
         }

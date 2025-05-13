@@ -15,25 +15,25 @@ namespace SEBO.API.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<Category> AddCategory(CreateCategoryDto createCategoryDto)
+        public async Task<Category> AddCategory(CreateCategoryDTO createCategoryDTO)
         {
             var category = new Category()
             {
-               Description = createCategoryDto.Description,
-               Name = createCategoryDto.Name,
+               Description = createCategoryDTO.Description,
+               Name = createCategoryDTO.Name,
             };
 
             return await _categoryRepository.Add(category);
         }
 
-        public async Task<Category> UpdateCategory(UpdateCategoryDto updateCategory)
+        public async Task<Category> UpdateCategory(UpdateCategoryDTO updateCategoryDTO)
         {
-            var category = await _categoryRepository.GetById(updateCategory.CategoryId);
+            var category = await _categoryRepository.GetById(updateCategoryDTO.CategoryId);
 
             if (category == null) throw new NotFoundException("Category not found");
 
-            category.Description = updateCategory.Description;
-            category.Name = updateCategory.Name;
+            category.Description = updateCategoryDTO.Description;
+            category.Name = updateCategoryDTO.Name;
 
             return await _categoryRepository.Update(category);
         }

@@ -2,7 +2,7 @@
 
 namespace SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account
 {
-    public class UpdateUserDto
+    public class UpdateUserDTO
     {
         [MaxLength(20, ErrorMessage = "Max length 20")]
         [MinLength(3, ErrorMessage = "Min length 2")]

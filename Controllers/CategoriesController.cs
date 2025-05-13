@@ -22,11 +22,11 @@ namespace SEBO.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Item>> PostCategory([FromBody] CreateCategoryDto createCategoryDto) => Ok(await _categoryService.AddCategory(createCategoryDto));
+        public async Task<ActionResult<Item>> PostCategory([FromBody] CreateCategoryDTO createCategoryDTO) => Ok(await _categoryService.AddCategory(createCategoryDTO));
 
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult<Item>> PutCategory([FromBody] UpdateCategoryDto updateCategoryDto) => Ok(await _categoryService.UpdateCategory(updateCategoryDto));
+        public async Task<ActionResult<Item>> PutCategory([FromBody] UpdateCategoryDTO updateCategoryDTO) => Ok(await _categoryService.UpdateCategory(updateCategoryDTO));
 
         [HttpDelete("{id:int}")]
         [Authorize]

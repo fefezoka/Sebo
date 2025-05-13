@@ -1,6 +1,6 @@
 ﻿namespace SEBO.API.Domain.ViewModel.DTO.ItemDTO
 {
-    public class UpdateItemDto
+    public class UpdateItemDTO
     {
         public int ItemId { get; set; }
         public string Author { get; set; }
