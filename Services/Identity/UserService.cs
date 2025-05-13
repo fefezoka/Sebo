@@ -53,21 +53,23 @@ namespace SEBO.API.Services.Identity
         }
 
         public async Task<IEnumerable<ReadUserDTO>> FindAll() => _mapper.Map<IEnumerable<ReadUserDTO>>(await _userRepository.GetAllUsersAsync());
-
-        public string GetUserEmailFromClaims()
-        {
-            return _httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
-        }
-
-        public int GetUserIdFromClaims()
-        {
-            return int.Parse(_httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value);
-        }
-
+        
         public async Task<ReadUserDTO> GetUser()
         {
             var email = GetUserEmailFromClaims();
             return _mapper.Map<ReadUserDTO>(await _userRepository.GetUserByEmailAsync(email) ?? throw new NotFoundException("User not found."));
         }
+
+        private string GetUserEmailFromClaims()
+        {
+            return _httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+        }
+
+        private int GetUserIdFromClaims()
+        {
+            return int.Parse(_httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value);
+        }
+
+       
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account;
 using SEBO.API.Services.Identity;
 
@@ -27,5 +28,8 @@ namespace SEBO.API.Controllers.Identity
        
         [HttpGet("findAll")]
         public async Task<ActionResult<IEnumerable<ReadUserDTO>>> FindAll() => Ok(await _userService.FindAll());
+
+        [HttpGet("me")]
+        public async Task<ActionResult<ReadUserDTO>> GetCurrentUser() => Ok(await _userService.GetUser());
     }
 }

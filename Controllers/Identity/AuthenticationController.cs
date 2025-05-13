@@ -16,9 +16,9 @@ namespace SEBO.API.Controllers.Identity
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<TokenDTO>> LoginByUserName([FromBody] LoginRequestByUserNameDTO loginRequestDTO)
+        public async Task<ActionResult<TokenDTO>> LoginByUserName([FromBody] LoginRequestByUserNameDTO loginRequestDTO, [FromQuery] bool? useCookies, [FromQuery] bool? useSessionCookies)
         {
-            var loginResult = await _authenticationService.LoginByUserNameAsync(loginRequestDTO);
+            var loginResult = await _authenticationService.LoginByUserNameAsync(loginRequestDTO, useCookies, useSessionCookies);
             return loginResult.IsSuccess ? Ok(loginResult) : Unauthorized(loginResult);
         }
     }
