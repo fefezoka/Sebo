@@ -1,7 +1,6 @@
 ﻿using SEBO.API.Domain.Entities.ProductAggregate;
 using SEBO.API.Domain.Utility.Exceptions;
 using SEBO.API.Domain.ViewModel.DTO.CategoryDTO;
-using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
 using SEBO.API.Repository.ProductAggregate;
 
 namespace SEBO.API.Services
@@ -15,18 +14,20 @@ namespace SEBO.API.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<Category> AddCategory(CreateCategoryDTO createCategoryDTO)
+        public async Task<CategoryDTO> AddCategory(CreateCategoryDTO createCategoryDTO)
         {
             var category = new Category()
             {
-               Description = createCategoryDTO.Description,
-               Name = createCategoryDTO.Name,
+                Description = createCategoryDTO.Description,
+                Name = createCategoryDTO.Name,
             };
 
-            return await _categoryRepository.Add(category);
+            category = await _categoryRepository.Add(category);
+
+            return new CategoryDTO(category);
         }
 
-        public async Task<Category> UpdateCategory(UpdateCategoryDTO updateCategoryDTO)
+        public async Task<CategoryDTO> UpdateCategory(UpdateCategoryDTO updateCategoryDTO)
         {
             var category = await _categoryRepository.GetById(updateCategoryDTO.CategoryId);
 
@@ -35,10 +36,18 @@ namespace SEBO.API.Services
             category.Description = updateCategoryDTO.Description;
             category.Name = updateCategoryDTO.Name;
 
-            return await _categoryRepository.Update(category);
+
+            category = await _categoryRepository.Update(category);
+
+            return new CategoryDTO(category);
         }
 
-        public async Task<IEnumerable<Category>> GetCategories() => await _categoryRepository.GetAll() ?? Enumerable.Empty<Category>();
+        public async Task<IEnumerable<CategoryDTO>> GetCategories()
+        {
+            var categories = await _categoryRepository.GetAll() ?? Enumerable.Empty<Category>();
+
+            return categories.Select(x => new CategoryDTO(x));
+        }
 
         public async Task DeleteById(int id) => await _categoryRepository.DeleteById(id);
     }

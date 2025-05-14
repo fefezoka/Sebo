@@ -19,7 +19,7 @@ namespace SEBO.API.Services
             _userRepository = userRepository;
         }
 
-        public async Task<Item> AddItem(CreateItemDTO createItemDTO)
+        public async Task<ItemDTO> AddItem(CreateItemDTO createItemDTO)
         {
             var user = await _userRepository.GetUserByIdAsync(createItemDTO.SellerId);
             if (user == null) throw new NotFoundException("User not found");
@@ -38,10 +38,10 @@ namespace SEBO.API.Services
                 Title = createItemDTO.Title,
             };
 
-            return await _itemRepository.Add(item);
+            return new ItemDTO(await _itemRepository.Add(item));
         }
 
-        public async Task<Item> UpdateItem(UpdateItemDTO updateItemDTO)
+        public async Task<ItemDTO> UpdateItem(UpdateItemDTO updateItemDTO)
         {
             var item = await _itemRepository.GetById(updateItemDTO.ItemId);
 
@@ -53,12 +53,12 @@ namespace SEBO.API.Services
             item.Description = updateItemDTO.Description;
             item.Title = updateItemDTO.Title;
 
-            return await _itemRepository.Update(item);
+            return new ItemDTO(await _itemRepository.Update(item));
         }
 
-        public async Task<IEnumerable<Item>> GetItems() => await _itemRepository.GetAll() ?? Enumerable.Empty<Item>();
+        public async Task<IEnumerable<ItemDTO>> GetItems() => (await _itemRepository.GetAll()).Select(x => new ItemDTO(x)) ?? Enumerable.Empty<ItemDTO>();
 
-        public async Task<Item> GetById(int id) => await _itemRepository.GetById(id) ?? throw new NotFoundException("Item not found");
+        public async Task<ItemDTO> GetById(int id) => new ItemDTO(await _itemRepository.GetById(id)) ?? throw new NotFoundException("Item not found");
 
         public async Task DeleteById(int id) => await _itemRepository.DeleteById(id);
     }

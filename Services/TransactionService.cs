@@ -11,8 +11,6 @@ namespace SEBO.API.Services
         private readonly TransactionRepository _transactionRepository;
         private readonly UserRepository _userRepository;
         private readonly ItemRepository _itemRepository;
-
-
         public TransactionService(TransactionRepository transactionRepository, ItemRepository itemRepository, UserRepository userRepository)
         {
             _transactionRepository = transactionRepository;
@@ -20,7 +18,7 @@ namespace SEBO.API.Services
             _userRepository = userRepository;
         }
 
-        public async Task<Transaction> AddTransaction(CreateTransactionDTO createTransactionDto)
+        public async Task<TransactionDTO> AddTransaction(CreateTransactionDTO createTransactionDto)
         {
             var user = await _userRepository.GetUserByIdAsync(createTransactionDto.SellerId);
             if (user == null) throw new NotFoundException("User not found");
@@ -35,15 +33,15 @@ namespace SEBO.API.Services
                 TransactionPrice = createTransactionDto.TransactionPrice,
             };
 
-            return await _transactionRepository.Add(transaction);
+            return new TransactionDTO(await _transactionRepository.Add(transaction));
         }
 
-        public async Task<IEnumerable<Transaction>> GetByUserId(int id)
+        public async Task<IEnumerable<TransactionDTO>> GetByUserId(int id)
         {
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null) throw new NotFoundException("User not found");
 
-            return await _transactionRepository.GetByUserId(id);
+            return (await _transactionRepository.GetByUserId(id)).Select(x => new TransactionDTO(x));
         }
     }
 }

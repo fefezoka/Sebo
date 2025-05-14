@@ -1,6 +1,4 @@
 ﻿using System.Security.Claims;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Domain.Utility.Exceptions;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account;
@@ -12,12 +10,10 @@ namespace SEBO.API.Services.Identity
     {
         private readonly UserRepository _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMapper _mapper;
-        public UserService(UserRepository userRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public UserService(UserRepository userRepository, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
-            _mapper = mapper;
         }
 
         public async Task<ReadUserDTO> RegisterAccountAsync(CreateUserDTO createUserDto)
@@ -32,7 +28,7 @@ namespace SEBO.API.Services.Identity
 
             var (result, user) = await _userRepository.AddUserAsync(applicationUser, createUserDto.Password);
 
-            return _mapper.Map<ReadUserDTO>(user);
+            return new ReadUserDTO(user);
         }
 
         public async Task<ReadUserDTO> UpdateUser(UpdateUserDTO updateUserDTO)
@@ -47,17 +43,19 @@ namespace SEBO.API.Services.Identity
                 FirstName = updateUserDTO.FirstName,
             };
 
-            var (result, newUser) = await _userRepository.UpdateUserAsync(userId, applicationUser);
+            var (result, user) = await _userRepository.UpdateUserAsync(userId, applicationUser);
 
-            return _mapper.Map<ReadUserDTO>(newUser);
+            return new ReadUserDTO(user);
         }
 
-        public async Task<IEnumerable<ReadUserDTO>> FindAll() => _mapper.Map<IEnumerable<ReadUserDTO>>(await _userRepository.GetAllUsersAsync());
+        public async Task<IEnumerable<ReadUserDTO>> FindAll() => (await _userRepository.GetAllUsersAsync()).Select(x => new ReadUserDTO(x));
         
         public async Task<ReadUserDTO> GetUser()
         {
             var email = GetUserEmailFromClaims();
-            return _mapper.Map<ReadUserDTO>(await _userRepository.GetUserByEmailAsync(email) ?? throw new NotFoundException("User not found."));
+            var user = await _userRepository.GetUserByEmailAsync(email) ?? throw new NotFoundException("User not found.");
+
+            return new ReadUserDTO(user);
         }
 
         private string GetUserEmailFromClaims()
