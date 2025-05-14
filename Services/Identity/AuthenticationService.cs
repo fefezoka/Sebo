@@ -25,7 +25,7 @@ namespace SEBO.API.Services.Identity
             try
             {
                 var applicationUser = await _signInManager.UserManager.FindByNameAsync(loginRequest.UserName);
-                if (applicationUser is null) return new BaseResponseDTO<TokenDTO>().WithErrors(GetErros());
+                if (applicationUser is null) return new BaseResponseDTO<TokenDTO>().WithErrors(GetErrors());
 
                 return await LoginAsync(applicationUser, loginRequest.Password);
             }
@@ -43,11 +43,11 @@ namespace SEBO.API.Services.Identity
                 var claims = request.User.Identity as ClaimsIdentity;
                 var userId = claims.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
                 var user = await _signInManager.UserManager.FindByIdAsync(userId);
-                if (user is null) return new BaseResponseDTO<TokenDTO>().WithErrors(GetErros());
+                if (user is null) return new BaseResponseDTO<TokenDTO>().WithErrors(GetErrors());
 
                 if (await _signInManager.UserManager.IsLockedOutAsync(user))
                 {
-                    return new BaseResponseDTO<TokenDTO>().WithErrors(GetErros());
+                    return new BaseResponseDTO<TokenDTO>().WithErrors(GetErrors());
                 }
 
                 return responseDTO.AddContent(await GenerateToken(user));
@@ -70,7 +70,7 @@ namespace SEBO.API.Services.Identity
                     return LoginResponseDTO.AddContent(await GenerateToken(applicationUser));
                 }
 
-                return LoginResponseDTO.WithErrors(GetErros(checkPasswordResult));
+                return LoginResponseDTO.WithErrors(GetErrors(checkPasswordResult));
             }
             catch (Exception ex)
             {
@@ -86,7 +86,7 @@ namespace SEBO.API.Services.Identity
             return new TokenDTO(token.Value);
         }
 
-        private IEnumerable<string> GetErros(SignInResult? result = null)
+        private IEnumerable<string> GetErrors(SignInResult? result = null)
         {
             var errorList = new List<string>();
 
