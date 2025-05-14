@@ -69,16 +69,14 @@ namespace SEBO.API.Services.Identity
             return responseDTO.AddContent(new ReadUserDTO(user));
         }
 
-        private string GetUserEmailFromClaims()
+        public string GetUserEmailFromClaims()
         {
             return _httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
         }
 
-        private int GetUserIdFromClaims()
+        public int GetUserIdFromClaims()
         {
             return int.Parse(_httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value);
         }
-
-       
     }
 }

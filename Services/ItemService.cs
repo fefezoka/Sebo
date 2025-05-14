@@ -4,6 +4,7 @@ using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
 using SEBO.API.Repository.IdentityAggregate;
 using SEBO.API.Repository.ProductAggregate;
+using SEBO.API.Services.Identity;
 
 namespace SEBO.API.Services
 {
@@ -12,12 +13,14 @@ namespace SEBO.API.Services
         private readonly ItemRepository _itemRepository;
         private readonly CategoryRepository _categoryRepository;
         private readonly UserRepository _userRepository;
+        private readonly UserService _userService;
 
-        public ItemService(ItemRepository itemRepository, CategoryRepository categoryRepository, UserRepository userRepository)
+        public ItemService(ItemRepository itemRepository, CategoryRepository categoryRepository, UserRepository userRepository, UserService userService)
         {
             _itemRepository = itemRepository;
             _categoryRepository = categoryRepository;
             _userRepository = userRepository;
+            _userService = userService;
         }
 
         public async Task<BaseResponseDTO<ItemDTO>> AddItem(CreateItemDTO createItemDTO)
@@ -77,6 +80,15 @@ namespace SEBO.API.Services
             return responseDTO.AddContent(new ItemDTO(item));
         } 
 
-        public async Task DeleteById(int id) => await _itemRepository.DeleteById(id);
+        public async Task DeleteById(int id)
+        {
+            var item = await _itemRepository.GetById(id) ?? throw new NotFoundException("Item not found");
+            var userId = _userService.GetUserIdFromClaims();
+
+            if (item.SellerId != userId) throw new BadRequestException("User isn't item owner");
+
+            await _itemRepository.DeleteById(id);
+        }    
+           
     }
 }
