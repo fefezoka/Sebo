@@ -64,28 +64,13 @@ namespace SEBO.API.IoC.Modules
 
             builder.AddAuthentication(options =>
             {
-                options.DefaultScheme = "Smart"; 
-                options.DefaultAuthenticateScheme = "Smart";
-                options.DefaultChallengeScheme = "Smart";
-            })
-            .AddPolicyScheme("Smart", "Smart Scheme", options =>
-            {
-                options.ForwardDefaultSelector = context =>
-                {
-                    var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
-                    if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
-                        return JwtBearerDefaults.AuthenticationScheme;
-
-                    if (context.Request.Cookies.ContainsKey(".AspNetCore.Identity.Application"))
-                        return IdentityConstants.ApplicationScheme;
-
-                    return IdentityConstants.ApplicationScheme;
-                };
-            })
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = tokenValidationParameter;
             });
+
         }
     }
 }

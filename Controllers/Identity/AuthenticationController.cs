@@ -21,9 +21,9 @@ namespace SEBO.API.Controllers.Identity
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TokenDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<TokenDTO>> LoginByUserName([FromBody] LoginRequestByUserNameDTO loginRequestDTO, [FromQuery] bool? useCookies, [FromQuery] bool? useSessionCookies)
+        public async Task<ActionResult<TokenDTO>> LoginByUserName([FromBody] LoginRequestByUserNameDTO loginRequestDTO)
         {
-            var loginResult = await _authenticationService.LoginByUserNameAsync(loginRequestDTO, useCookies, useSessionCookies);
+            var loginResult = await _authenticationService.LoginByUserNameAsync(loginRequestDTO);
             return loginResult.IsSuccess ? Ok(loginResult) : Unauthorized(loginResult);
         }
     }

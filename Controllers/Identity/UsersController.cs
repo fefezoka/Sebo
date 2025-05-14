@@ -3,7 +3,6 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Authentication;
 using SEBO.API.Services.Identity;
@@ -42,7 +41,7 @@ namespace SEBO.API.Controllers.Identity
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReadUserDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<ReadUserDTO>>> FindAll() => Ok(await _userService.FindAll());
-
+        
         [HttpGet("me")]
         [Authorize]
         [Produces(MediaTypeNames.Application.Json)]

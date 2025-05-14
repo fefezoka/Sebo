@@ -22,26 +22,14 @@ namespace SEBO.API.Services.Identity
             _mapper = mapper;
         }
 
-        public async Task<BaseResponseDTO<TokenDTO>> LoginByUserNameAsync(LoginRequestByUserNameDTO loginRequestDTO, bool? useCookies = false, bool? useSessionCookies = false)
+        public async Task<BaseResponseDTO<TokenDTO>> LoginByUserNameAsync(LoginRequestByUserNameDTO loginRequest)
         {
             try
             {
-                var applicationUser = await _signInManager.UserManager.FindByNameAsync(loginRequestDTO.UserName);
-                if (applicationUser is null) return new BaseResponseDTO<TokenDTO>().WithErrors(GetErrors());
+                var applicationUser = await _signInManager.UserManager.FindByNameAsync(loginRequest.UserName);
+                if (applicationUser is null) return new BaseResponseDTO<TokenDTO>().WithErrors(GetErros());
 
-                var LoginResponseDTO = new BaseResponseDTO<TokenDTO>();
-
-                var useCookieScheme = (useCookies == true) || (useSessionCookies == true);
-                var isPersistent = (useCookies == true) && (useSessionCookies != true);
-                _signInManager.AuthenticationScheme = useCookieScheme ? IdentityConstants.ApplicationScheme : IdentityConstants.BearerScheme;
-                var result = await _signInManager.PasswordSignInAsync(loginRequestDTO.UserName, loginRequestDTO.Password, isPersistent, lockoutOnFailure: true);
-
-                if (result.Succeeded)
-                {
-                    return LoginResponseDTO.AddContent(await GenerateToken(applicationUser));
-                }
-
-                return LoginResponseDTO.WithErrors(GetErrors(result));
+                return await LoginAsync(applicationUser, loginRequest.Password);
             }
             catch (Exception ex)
             {
@@ -57,14 +45,34 @@ namespace SEBO.API.Services.Identity
                 var claims = request.User.Identity as ClaimsIdentity;
                 var userId = claims.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
                 var user = await _signInManager.UserManager.FindByIdAsync(userId);
-                if (user is null) return new BaseResponseDTO<TokenDTO>().WithErrors(GetErrors());
+                if (user is null) return new BaseResponseDTO<TokenDTO>().WithErrors(GetErros());
 
                 if (await _signInManager.UserManager.IsLockedOutAsync(user))
                 {
-                    return new BaseResponseDTO<TokenDTO>().WithErrors(GetErrors());
+                    return new BaseResponseDTO<TokenDTO>().WithErrors(GetErros());
                 }
 
                 return responseDTO.AddContent(await GenerateToken(user));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private async Task<BaseResponseDTO<TokenDTO>> LoginAsync(ApplicationUser applicationUser, string password)
+        {
+            try
+            {
+                var LoginResponseDTO = new BaseResponseDTO<TokenDTO>();
+                var checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(applicationUser, password, false);
+
+                if (checkPasswordResult.Succeeded)
+                {
+                    return LoginResponseDTO.AddContent(await GenerateToken(applicationUser));
+                }
+
+                return LoginResponseDTO.WithErrors(GetErros(checkPasswordResult));
             }
             catch (Exception ex)
             {
@@ -81,7 +89,7 @@ namespace SEBO.API.Services.Identity
             return tokenResponseDTO;
         }
 
-        private IEnumerable<string> GetErrors(SignInResult? result = null)
+        private IEnumerable<string> GetErros(SignInResult? result = null)
         {
             var errorList = new List<string>();
 
