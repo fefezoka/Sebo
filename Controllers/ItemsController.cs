@@ -3,6 +3,7 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SEBO.API.Domain.Entities.ProductAggregate;
+using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
 using SEBO.API.Services;
 
@@ -21,45 +22,45 @@ namespace SEBO.API.Controllers
 
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ItemDTO>))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<ItemDTO>>> GetItems() => Ok(await _itemService.GetItems());
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseDTO<IEnumerable<ItemDTO>>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
+        public async Task<ActionResult<BaseResponseDTO<IEnumerable<ItemDTO>>>> GetItems() => Ok(await _itemService.GetItems());
 
         [HttpGet("{id:int}")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemDTO))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ItemDTO>> GetItem([FromRoute]int id) => Ok(await _itemService.GetById(id));
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseDTO<ItemDTO>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
+        public async Task<ActionResult<BaseResponseDTO<ItemDTO>>> GetItem([FromRoute]int id) => Ok(await _itemService.GetById(id));
 
         [HttpPost]
         [Authorize]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemDTO))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ItemDTO>> PostItem([FromBody] CreateItemDTO createItemDTO) => Ok(await _itemService.AddItem(createItemDTO));
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseDTO<ItemDTO>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
+        public async Task<ActionResult<BaseResponseDTO<ItemDTO>>> PostItem([FromBody] CreateItemDTO createItemDTO) => Ok(await _itemService.AddItem(createItemDTO));
 
         [HttpPut]
         [Authorize]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemDTO))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ItemDTO>> PutItem([FromBody] UpdateItemDTO updateItemDTO) => Ok(await _itemService.UpdateItem(updateItemDTO));
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseDTO<ItemDTO>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
+        public async Task<ActionResult<BaseResponseDTO<ItemDTO>>> PutItem([FromBody] UpdateItemDTO updateItemDTO) => Ok(await _itemService.UpdateItem(updateItemDTO));
 
         [HttpDelete("{id:int}")]
         [Authorize]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponseDTO<string>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
         public async Task<IActionResult> DeleteItem([FromRoute] int id)
         {
             await _itemService.DeleteById(id);

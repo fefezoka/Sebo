@@ -1,5 +1,6 @@
 ﻿using SEBO.API.Domain.Entities.ProductAggregate;
 using SEBO.API.Domain.Utility.Exceptions;
+using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.TransactionDTO;
 using SEBO.API.Repository.IdentityAggregate;
 using SEBO.API.Repository.ProductAggregate;
@@ -18,8 +19,10 @@ namespace SEBO.API.Services
             _userRepository = userRepository;
         }
 
-        public async Task<TransactionDTO> AddTransaction(CreateTransactionDTO createTransactionDto)
+        public async Task<BaseResponseDTO<TransactionDTO>> AddTransaction(CreateTransactionDTO createTransactionDto)
         {
+            var responseDTO = new BaseResponseDTO<TransactionDTO>();
+
             var user = await _userRepository.GetUserByIdAsync(createTransactionDto.SellerId);
             if (user == null) throw new NotFoundException("User not found");
 
@@ -33,15 +36,19 @@ namespace SEBO.API.Services
                 TransactionPrice = createTransactionDto.TransactionPrice,
             };
 
-            return new TransactionDTO(await _transactionRepository.Add(transaction));
+            return responseDTO.AddContent(new TransactionDTO(await _transactionRepository.Add(transaction)));
         }
 
-        public async Task<IEnumerable<TransactionDTO>> GetByUserId(int id)
+        public async Task<BaseResponseDTO<IEnumerable<TransactionDTO>>> GetByUserId(int id)
         {
+            var responseDTO = new BaseResponseDTO<IEnumerable<TransactionDTO>>();
+            
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null) throw new NotFoundException("User not found");
 
-            return (await _transactionRepository.GetByUserId(id)).Select(x => new TransactionDTO(x));
+            var transactions = (await _transactionRepository.GetByUserId(id)).Select(x => new TransactionDTO(x));
+
+            return responseDTO.AddContent(transactions);
         }
     }
 }

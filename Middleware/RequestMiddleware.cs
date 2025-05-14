@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SEBO.API.Domain.Utility.Exceptions;
+using SEBO.API.Domain.ViewModel.DTO.Base;
 using System.Net;
 
 namespace SEBO.API.Middleware
@@ -42,7 +43,8 @@ namespace SEBO.API.Middleware
             var contentType = "application/json";
             var statusCode = (int)HttpStatusCode.NotFound;
 
-            var response = JsonConvert.SerializeObject(exception.Errors);
+            var baseResponse = new BaseResponseDTO<string>().WithErrors(exception.Errors);
+            var response = JsonConvert.SerializeObject(baseResponse);
 
             context.Response.ContentType = contentType;
             context.Response.StatusCode = statusCode;
@@ -54,7 +56,8 @@ namespace SEBO.API.Middleware
             var contentType = "application/json";
             var statusCode = (int)HttpStatusCode.BadRequest;
 
-            var response = JsonConvert.SerializeObject(exception.Errors);
+            var baseResponse = new BaseResponseDTO<string>().WithErrors(exception.Errors);
+            var response = JsonConvert.SerializeObject(baseResponse);
 
             context.Response.ContentType = contentType;
             context.Response.StatusCode = statusCode;
@@ -66,7 +69,8 @@ namespace SEBO.API.Middleware
             var contentType = "application/json";
             var statusCode = (int)HttpStatusCode.InternalServerError;
 
-            var response = JsonConvert.SerializeObject(exception.Message);
+            var baseResponse = new BaseResponseDTO<string>().AddError(exception.Message);
+            var response = JsonConvert.SerializeObject(baseResponse);
 
             context.Response.ContentType = contentType;
             context.Response.StatusCode = statusCode;

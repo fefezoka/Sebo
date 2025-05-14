@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Domain.Utility.Exceptions;
+using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account;
 using SEBO.API.Repository.IdentityAggregate;
 
@@ -16,8 +17,10 @@ namespace SEBO.API.Services.Identity
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ReadUserDTO> RegisterAccountAsync(CreateUserDTO createUserDto)
+        public async Task<BaseResponseDTO<ReadUserDTO>> RegisterAccountAsync(CreateUserDTO createUserDto)
         {
+            var responseDTO = new BaseResponseDTO<ReadUserDTO>();
+
             var applicationUser = new ApplicationUser()
             {
                 UserName = createUserDto.UserName,
@@ -28,13 +31,13 @@ namespace SEBO.API.Services.Identity
 
             var (result, user) = await _userRepository.AddUserAsync(applicationUser, createUserDto.Password);
 
-            return new ReadUserDTO(user);
+            return responseDTO.AddContent(new ReadUserDTO(user));
         }
 
-        public async Task<ReadUserDTO> UpdateUser(UpdateUserDTO updateUserDTO)
+        public async Task<BaseResponseDTO<ReadUserDTO>> UpdateUser(UpdateUserDTO updateUserDTO)
         {
+            var responseDTO = new BaseResponseDTO<ReadUserDTO>();
             var userId = GetUserIdFromClaims();
-
             var applicationUser = new ApplicationUser()
             {
                 UserName = updateUserDTO.UserName,
@@ -45,17 +48,25 @@ namespace SEBO.API.Services.Identity
 
             var (result, user) = await _userRepository.UpdateUserAsync(userId, applicationUser);
 
-            return new ReadUserDTO(user);
+            return responseDTO.AddContent(new ReadUserDTO(user));
         }
 
-        public async Task<IEnumerable<ReadUserDTO>> FindAll() => (await _userRepository.GetAllUsersAsync()).Select(x => new ReadUserDTO(x));
-        
-        public async Task<ReadUserDTO> GetUser()
+        public async Task<BaseResponseDTO<IEnumerable<ReadUserDTO>>> FindAll()
         {
+            var responseDTO = new BaseResponseDTO<IEnumerable<ReadUserDTO>>();
+
+            var users = (await _userRepository.GetAllUsersAsync()).Select(x => new ReadUserDTO(x));
+
+            return responseDTO.AddContent(users);
+        }
+        
+        public async Task<BaseResponseDTO<ReadUserDTO>> GetUser()
+        {
+            var responseDTO = new BaseResponseDTO<ReadUserDTO>();
             var email = GetUserEmailFromClaims();
             var user = await _userRepository.GetUserByEmailAsync(email) ?? throw new NotFoundException("User not found.");
 
-            return new ReadUserDTO(user);
+            return responseDTO.AddContent(new ReadUserDTO(user));
         }
 
         private string GetUserEmailFromClaims()

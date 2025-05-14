@@ -1,5 +1,6 @@
 ﻿using SEBO.API.Domain.Entities.ProductAggregate;
 using SEBO.API.Domain.Utility.Exceptions;
+using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
 using SEBO.API.Repository.IdentityAggregate;
 using SEBO.API.Repository.ProductAggregate;
@@ -19,8 +20,10 @@ namespace SEBO.API.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ItemDTO> AddItem(CreateItemDTO createItemDTO)
+        public async Task<BaseResponseDTO<ItemDTO>> AddItem(CreateItemDTO createItemDTO)
         {
+            var responseDTO = new BaseResponseDTO<ItemDTO>();
+
             var user = await _userRepository.GetUserByIdAsync(createItemDTO.SellerId);
             if (user == null) throw new NotFoundException("User not found");
 
@@ -38,11 +41,12 @@ namespace SEBO.API.Services
                 Title = createItemDTO.Title,
             };
 
-            return new ItemDTO(await _itemRepository.Add(item));
+            return responseDTO.AddContent(new ItemDTO(await _itemRepository.Add(item)));
         }
 
-        public async Task<ItemDTO> UpdateItem(UpdateItemDTO updateItemDTO)
+        public async Task<BaseResponseDTO<ItemDTO>> UpdateItem(UpdateItemDTO updateItemDTO)
         {
+            var responseDTO = new BaseResponseDTO<ItemDTO>();
             var item = await _itemRepository.GetById(updateItemDTO.ItemId);
 
             if (item == null) throw new NotFoundException("Item not found");
@@ -53,15 +57,24 @@ namespace SEBO.API.Services
             item.Description = updateItemDTO.Description;
             item.Title = updateItemDTO.Title;
 
-            return new ItemDTO(await _itemRepository.Update(item));
+            return responseDTO.AddContent(new ItemDTO(await _itemRepository.Update(item)));
         }
 
-        public async Task<IEnumerable<ItemDTO>> GetItems() => (await _itemRepository.GetAll()).Select(x => new ItemDTO(x)) ?? Enumerable.Empty<ItemDTO>();
-
-        public async Task<ItemDTO> GetById(int id)
+        public async Task<BaseResponseDTO<IEnumerable<ItemDTO>>> GetItems()
         {
+            var responseDTO = new BaseResponseDTO<IEnumerable<ItemDTO>>();
+
+            var items = (await _itemRepository.GetAll()).Select(x => new ItemDTO(x)) ?? Enumerable.Empty<ItemDTO>();
+
+            return responseDTO.AddContent(items);
+        }
+
+        public async Task<BaseResponseDTO<ItemDTO>> GetById(int id)
+        {
+            var responseDTO = new BaseResponseDTO<ItemDTO>();
+            
             var item = await _itemRepository.GetById(id) ?? throw new NotFoundException("Item not found");
-            return new ItemDTO(item);
+            return responseDTO.AddContent(new ItemDTO(item));
         } 
 
         public async Task DeleteById(int id) => await _itemRepository.DeleteById(id);
