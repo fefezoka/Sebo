@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SEBO.API.Data;
 using SEBO.API.Domain.Entities.IdentityAggregate;
-using System.Security.Claims;
 
 namespace SEBO.API.Repository.IdentityAggregate
 {
@@ -21,7 +21,7 @@ namespace SEBO.API.Repository.IdentityAggregate
 
         public async Task<ApplicationUser?> GetUserByIdAsync(int id) => await _userManager.FindByIdAsync(id.ToString());
         public async Task<ApplicationUser?> GetUserByUserNameAsync(string userName) => await _userManager.FindByNameAsync(userName);
-        public async Task<ApplicationUser?> GetUserByEmailAsync(string email) =>  await _userManager.FindByEmailAsync(email);
+        public async Task<ApplicationUser?> GetUserByEmailAsync(string email) => await _userManager.FindByEmailAsync(email);
         public async Task<IEnumerable<ApplicationUser>> GetActiveUsersAsync() => await _dbSet.Where(x => x.Active).ToListAsync();
         public async Task<IEnumerable<ApplicationUser>> GetAllUsersByUsernameAsync(string username) => await _dbSet.Where(user => user.UserName.Contains(username)).ToListAsync();
         public async Task<IEnumerable<ApplicationUser>?> GetAllUsersAsync() => await _dbSet.ToListAsync();

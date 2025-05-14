@@ -1,14 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SEBO.API.Data.Mapping.ProductAggregate;
-using SEBO.API.Data.Mapping.IdentityAggregate;
-using SEBO.API.Domain.Entities.ProductAggregate;
-using SEBO.API.Domain.Entities.IdentityAggregate;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SEBO.API.Data.Mapping.IdentityAggregate;
+using SEBO.API.Data.Mapping.ProductAggregate;
+using SEBO.API.Domain.Entities.IdentityAggregate;
+using SEBO.API.Domain.Entities.ProductAggregate;
 
 namespace SEBO.API.Data
 {
-    public class SEBOContext: IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
+    public class SEBOContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
         public SEBOContext(DbContextOptions<SEBOContext> options) : base(options) { }
 

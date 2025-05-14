@@ -59,7 +59,7 @@ namespace SEBO.API.Services.Identity
 
             return responseDTO.AddContent(users);
         }
-        
+
         public async Task<BaseResponseDTO<ReadUserDTO>> GetUser()
         {
             var responseDTO = new BaseResponseDTO<ReadUserDTO>();

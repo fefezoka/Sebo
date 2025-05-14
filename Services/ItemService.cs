@@ -75,10 +75,10 @@ namespace SEBO.API.Services
         public async Task<BaseResponseDTO<ItemDTO>> GetById(int id)
         {
             var responseDTO = new BaseResponseDTO<ItemDTO>();
-            
+
             var item = await _itemRepository.GetById(id) ?? throw new NotFoundException("Item not found");
             return responseDTO.AddContent(new ItemDTO(item));
-        } 
+        }
 
         public async Task DeleteById(int id)
         {
@@ -88,7 +88,7 @@ namespace SEBO.API.Services
             if (item.SellerId != userId) throw new BadRequestException("User isn't item owner");
 
             await _itemRepository.DeleteById(id);
-        }    
-           
+        }
+
     }
 }

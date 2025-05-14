@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net;
+using Newtonsoft.Json;
 using SEBO.API.Domain.Utility.Exceptions;
 using SEBO.API.Domain.ViewModel.DTO.Base;
-using System.Net;
 
 namespace SEBO.API.Middleware
 {

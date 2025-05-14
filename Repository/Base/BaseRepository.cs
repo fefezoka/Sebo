@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using SEBO.API.Domain.Entities.Base;
-using System.Linq.Expressions;
 using SEBO.API.Domain.Utility.Abstractions;
 
 namespace SEBO.API.Data.Repository.Base

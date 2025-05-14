@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using SEBO.API.Domain.Entities.IdentityAggregate;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Authentication;
-using System.Security.Claims;
 
 namespace SEBO.API.Services.Identity
 {

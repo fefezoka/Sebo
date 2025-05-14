@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using SEBO.API.Data;
 using SEBO.API.Domain.Entities.IdentityAggregate;
-using System.Text;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace SEBO.API.IoC.Modules

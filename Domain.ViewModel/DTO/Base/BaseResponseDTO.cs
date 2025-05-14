@@ -1,5 +1,5 @@
-﻿using SEBO.API.Domain.Utility.Abstractions;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using SEBO.API.Domain.Utility.Abstractions;
 
 namespace SEBO.API.Domain.ViewModel.DTO.Base
 {

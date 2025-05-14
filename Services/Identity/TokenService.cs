@@ -1,9 +1,9 @@
-﻿using FluentResults;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SEBO.API.Domain.Entities.IdentityAggregate;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace SEBO.API.Services.Identity

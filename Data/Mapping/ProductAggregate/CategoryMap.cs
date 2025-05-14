@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SEBO.API.Domain.Entities.ProductAggregate;
-using System;
 
 namespace SEBO.API.Data.Mapping.ProductAggregate
 {

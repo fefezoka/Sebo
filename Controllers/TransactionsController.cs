@@ -1,7 +1,6 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SEBO.API.Domain.Entities.ProductAggregate;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.TransactionDTO;
 using SEBO.API.Services;

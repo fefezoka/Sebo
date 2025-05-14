@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using SEBO.API.Domain.Entities.ProductAggregate;
 
 namespace SEBO.API.Domain.Entities.IdentityAggregate

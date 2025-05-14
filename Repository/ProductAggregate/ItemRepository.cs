@@ -1,5 +1,5 @@
-﻿using SEBO.API.Data.Repository.Base;
-using SEBO.API.Data;
+﻿using SEBO.API.Data;
+using SEBO.API.Data.Repository.Base;
 using SEBO.API.Domain.Entities.ProductAggregate;
 
 namespace SEBO.API.Repository.ProductAggregate

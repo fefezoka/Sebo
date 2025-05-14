@@ -2,7 +2,6 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SEBO.API.Domain.Entities.ProductAggregate;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
 using SEBO.API.Services;
@@ -32,7 +31,7 @@ namespace SEBO.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<ItemDTO>>> GetItem([FromRoute]int id) => Ok(await _itemService.GetById(id));
+        public async Task<ActionResult<BaseResponseDTO<ItemDTO>>> GetItem([FromRoute] int id) => Ok(await _itemService.GetById(id));
 
         [HttpPost]
         [Authorize]
