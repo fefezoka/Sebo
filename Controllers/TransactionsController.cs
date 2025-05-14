@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SEBO.API.Domain.Entities.ProductAggregate;
 using SEBO.API.Domain.ViewModel.DTO.TransactionDTO;
@@ -19,9 +20,19 @@ namespace SEBO.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Item>> PostTransaction([FromBody] CreateTransactionDTO createTransactionDto) => Ok(await _transactionService.AddTransaction(createTransactionDto));
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Transaction))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Transaction>> PostTransaction([FromBody] CreateTransactionDTO createTransactionDto) => Ok(await _transactionService.AddTransaction(createTransactionDto));
 
         [HttpGet("user/{id:int}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Transaction>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<Transaction>>> GetByUserId([FromRoute] int id) => Ok(await _transactionService.GetByUserId(id));
     }
 }

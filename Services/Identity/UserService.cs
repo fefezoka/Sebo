@@ -20,7 +20,7 @@ namespace SEBO.API.Services.Identity
             _mapper = mapper;
         }
 
-        public async Task<IdentityResult> RegisterAccountAsync(CreateUserDTO createUserDto)
+        public async Task<ReadUserDTO> RegisterAccountAsync(CreateUserDTO createUserDto)
         {
             var applicationUser = new ApplicationUser()
             {
@@ -32,7 +32,7 @@ namespace SEBO.API.Services.Identity
 
             var (result, user) = await _userRepository.AddUserAsync(applicationUser, createUserDto.Password);
 
-            return result;
+            return _mapper.Map<ReadUserDTO>(user);
         }
 
         public async Task<ReadUserDTO> UpdateUser(UpdateUserDTO updateUserDTO)
