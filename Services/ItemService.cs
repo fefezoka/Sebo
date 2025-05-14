@@ -58,7 +58,11 @@ namespace SEBO.API.Services
 
         public async Task<IEnumerable<ItemDTO>> GetItems() => (await _itemRepository.GetAll()).Select(x => new ItemDTO(x)) ?? Enumerable.Empty<ItemDTO>();
 
-        public async Task<ItemDTO> GetById(int id) => new ItemDTO(await _itemRepository.GetById(id)) ?? throw new NotFoundException("Item not found");
+        public async Task<ItemDTO> GetById(int id)
+        {
+            var item = await _itemRepository.GetById(id) ?? throw new NotFoundException("Item not found");
+            return new ItemDTO(item);
+        } 
 
         public async Task DeleteById(int id) => await _itemRepository.DeleteById(id);
     }

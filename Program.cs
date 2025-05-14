@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SEBO.API.Data;
 using SEBO.API.Dependencies;
+using SEBO.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,5 +61,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<RequestMiddleware>();
 
 app.Run();

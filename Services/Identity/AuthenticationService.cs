@@ -13,13 +13,11 @@ namespace SEBO.API.Services.Identity
 
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly TokenService _tokenService;
-        private readonly IMapper _mapper;
 
         public AuthenticationService(SignInManager<ApplicationUser> signInManager, TokenService tokenService, IMapper mapper)
         {
             _signInManager = signInManager;
             _tokenService = tokenService;
-            _mapper = mapper;
         }
 
         public async Task<BaseResponseDTO<TokenDTO>> LoginByUserNameAsync(LoginRequestByUserNameDTO loginRequest)
@@ -85,8 +83,7 @@ namespace SEBO.API.Services.Identity
             var userRoles = await _signInManager.UserManager.GetRolesAsync(applicationUser);
             var userClaims = await _signInManager.UserManager.GetClaimsAsync(applicationUser);
             var token = await _tokenService.GetToken(applicationUser, userClaims, userRoles);
-            var tokenResponseDTO = _mapper.Map<TokenDTO>(token.Value);
-            return tokenResponseDTO;
+            return new TokenDTO(token.Value);
         }
 
         private IEnumerable<string> GetErros(SignInResult? result = null)
