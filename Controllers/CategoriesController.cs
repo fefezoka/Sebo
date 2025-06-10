@@ -1,9 +1,9 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SEBO.API.Domain.Interface.Services;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.CategoryDTO;
-using SEBO.API.Services;
 
 namespace SEBO.API.Controllers
 {
@@ -11,9 +11,9 @@ namespace SEBO.API.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesController(CategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
@@ -22,7 +22,7 @@ namespace SEBO.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseDTO<IEnumerable<CategoryDTO>>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<IEnumerable<CategoryDTO>>>> GetCategories() => Ok(await _categoryService.GetCategories());
+        public async Task<ActionResult<BaseResponseDTO<IEnumerable<CategoryDTO>>>> GetAllCategories() => Ok(await _categoryService.GetAllCategories());
 
         [HttpPost]
         [Authorize]
@@ -31,7 +31,7 @@ namespace SEBO.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<CategoryDTO>>> PostCategory([FromBody] CreateCategoryDTO createCategoryDTO) => Ok(await _categoryService.AddCategory(createCategoryDTO));
+        public async Task<ActionResult<BaseResponseDTO<CategoryDTO>>> AddCategory([FromBody] CreateCategoryDTO createCategoryDTO) => Ok(await _categoryService.AddCategory(createCategoryDTO));
 
         [HttpPut]
         [Authorize]
@@ -41,7 +41,7 @@ namespace SEBO.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<CategoryDTO>>> PutCategory([FromBody] UpdateCategoryDTO updateCategoryDTO) => Ok(await _categoryService.UpdateCategory(updateCategoryDTO));
+        public async Task<ActionResult<BaseResponseDTO<CategoryDTO>>> UpdateCategory([FromBody] UpdateCategoryDTO updateCategoryDTO) => Ok(await _categoryService.UpdateCategory(updateCategoryDTO));
 
         [HttpDelete("{id:int}")]
         [Authorize]
@@ -51,9 +51,9 @@ namespace SEBO.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteCategoryById([FromRoute] int id)
         {
-            await _categoryService.DeleteById(id);
+            await _categoryService.DeleteCategoryById(id);
             return NoContent();
         }
     }

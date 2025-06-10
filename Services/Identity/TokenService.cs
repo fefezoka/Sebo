@@ -4,11 +4,12 @@ using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SEBO.API.Domain.Entities.IdentityAggregate;
+using SEBO.API.Domain.Interface.Services.Identity;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace SEBO.API.Services.Identity
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         private readonly ApplicationJwtOptions _jwtOptions;
 

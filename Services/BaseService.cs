@@ -1,13 +1,13 @@
-﻿using SEBO.API.Data.Repository.Base;
-using SEBO.API.Domain.Entities.Base;
+﻿using SEBO.API.Domain.Entities.Base;
+using SEBO.API.Domain.Interface.Repository.Base;
 
 namespace SEBO.Services
 {
     public class BaseService<T> where T : BaseEntity
     {
-        protected readonly BaseRepository<T> _repository;
+        protected readonly IBaseRepository<T> _repository;
 
-        public BaseService(BaseRepository<T> repository)
+        public BaseService(IBaseRepository<T> repository)
         {
             _repository = repository;
         }

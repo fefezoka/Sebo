@@ -1,5 +1,5 @@
-﻿using SEBO.API.Repository.IdentityAggregate;
-using SEBO.API.Repository.ProductAggregate;
+﻿using SEBO.API.Domain.Interface.Services;
+using SEBO.API.Domain.Interface.Services.Identity;
 using SEBO.API.Services;
 using SEBO.API.Services.Identity;
 
@@ -9,16 +9,12 @@ namespace SEBO.API.IoC.Modules
     {
         public static void InjectDependencies(IServiceCollection builder)
         {
-            builder.AddScoped<CategoryRepository>();
-            builder.AddScoped<ItemRepository>();
-            builder.AddScoped<UserRepository>();
-            builder.AddScoped<TransactionRepository>();
-            builder.AddScoped<CategoryService>();
-            builder.AddScoped<ItemService>();
-            builder.AddScoped<UserService>();
-            builder.AddScoped<TransactionService>();
-            builder.AddScoped<AuthenticationService>();
-            builder.AddScoped<TokenService>();
+            builder.AddTransient<ICategoryService, CategoryService>();
+            builder.AddTransient<IItemService, ItemService>();
+            builder.AddTransient<IUserService, UserService>();
+            builder.AddTransient<ITransactionService, TransactionService>();
+            builder.AddTransient<IAuthenticationService, AuthenticationService>();
+            builder.AddTransient<ITokenService, TokenService>();
         }
     }
 }

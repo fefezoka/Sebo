@@ -2,9 +2,9 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SEBO.API.Domain.Interface.Services.Identity;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account;
-using SEBO.API.Services.Identity;
 
 namespace SEBO.API.Controllers.Identity
 {
@@ -12,9 +12,9 @@ namespace SEBO.API.Controllers.Identity
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UsersController(UserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }
@@ -24,7 +24,7 @@ namespace SEBO.API.Controllers.Identity
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseDTO<ReadUserDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<ReadUserDTO>>> RegisterAccount([FromBody] CreateUserDTO createUserDTO) => Ok(await _userService.RegisterAccountAsync(createUserDTO));
+        public async Task<ActionResult<BaseResponseDTO<ReadUserDTO>>> RegisterUserAsync([FromBody] CreateUserDTO createUserDTO) => Ok(await _userService.RegisterUserAsync(createUserDTO));
 
         [HttpPost("update")]
         [Authorize]
@@ -33,13 +33,13 @@ namespace SEBO.API.Controllers.Identity
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<ReadUserDTO>>> UpdateUser([FromBody] UpdateUserDTO updateUserDTO) => Ok(await _userService.UpdateUser(updateUserDTO));
+        public async Task<ActionResult<BaseResponseDTO<ReadUserDTO>>> UpdateUserAsync([FromBody] UpdateUserDTO updateUserDTO) => Ok(await _userService.UpdateUserAsync(updateUserDTO));
 
         [HttpGet("findAll")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseDTO<IEnumerable<ReadUserDTO>>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<IEnumerable<ReadUserDTO>>>> FindAll() => Ok(await _userService.FindAll());
+        public async Task<ActionResult<BaseResponseDTO<IEnumerable<ReadUserDTO>>>> GetAllUsersAsync() => Ok(await _userService.GetAllUsersAsync());
 
         [HttpGet("me")]
         [Authorize]
@@ -47,6 +47,6 @@ namespace SEBO.API.Controllers.Identity
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseResponseDTO<ReadUserDTO>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<ReadUserDTO>>> GetCurrentUser() => Ok(await _userService.GetUser());
+        public async Task<ActionResult<BaseResponseDTO<ReadUserDTO>>> GetActiveUserAsync() => Ok(await _userService.GetActiveUserAsync());
     }
 }

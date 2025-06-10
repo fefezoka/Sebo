@@ -1,21 +1,22 @@
 ﻿using SEBO.API.Domain.Entities.ProductAggregate;
+using SEBO.API.Domain.Interface.Repository.IdentityAggregate;
+using SEBO.API.Domain.Interface.Repository.ProductAggregate;
+using SEBO.API.Domain.Interface.Services;
+using SEBO.API.Domain.Interface.Services.Identity;
 using SEBO.API.Domain.Utility.Exceptions;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.ItemDTO;
-using SEBO.API.Repository.IdentityAggregate;
-using SEBO.API.Repository.ProductAggregate;
-using SEBO.API.Services.Identity;
 
 namespace SEBO.API.Services
 {
-    public class ItemService
+    public class ItemService : IItemService
     {
-        private readonly ItemRepository _itemRepository;
-        private readonly CategoryRepository _categoryRepository;
-        private readonly UserRepository _userRepository;
-        private readonly UserService _userService;
+        private readonly IItemRepository _itemRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public ItemService(ItemRepository itemRepository, CategoryRepository categoryRepository, UserRepository userRepository, UserService userService)
+        public ItemService(IItemRepository itemRepository, ICategoryRepository categoryRepository, IUserRepository userRepository, IUserService userService)
         {
             _itemRepository = itemRepository;
             _categoryRepository = categoryRepository;
@@ -27,7 +28,7 @@ namespace SEBO.API.Services
         {
             var responseDTO = new BaseResponseDTO<ItemDTO>();
 
-            var user = await _userRepository.GetUserByIdAsync(createItemDTO.SellerId);
+            var (result, user) = await _userRepository.GetUserByIdAsync(createItemDTO.SellerId);
             if (user == null) throw new NotFoundException("User not found");
 
             var category = await _categoryRepository.GetById(createItemDTO.CategoryId);
@@ -63,7 +64,7 @@ namespace SEBO.API.Services
             return responseDTO.AddContent(new ItemDTO(await _itemRepository.Update(item)));
         }
 
-        public async Task<BaseResponseDTO<IEnumerable<ItemDTO>>> GetItems()
+        public async Task<BaseResponseDTO<IEnumerable<ItemDTO>>> GetAllItems()
         {
             var responseDTO = new BaseResponseDTO<IEnumerable<ItemDTO>>();
 
@@ -72,7 +73,7 @@ namespace SEBO.API.Services
             return responseDTO.AddContent(items);
         }
 
-        public async Task<BaseResponseDTO<ItemDTO>> GetById(int id)
+        public async Task<BaseResponseDTO<ItemDTO>> GetItemById(int id)
         {
             var responseDTO = new BaseResponseDTO<ItemDTO>();
 
@@ -80,7 +81,7 @@ namespace SEBO.API.Services
             return responseDTO.AddContent(new ItemDTO(item));
         }
 
-        public async Task DeleteById(int id)
+        public async Task DeleteItemById(int id)
         {
             var item = await _itemRepository.GetById(id) ?? throw new NotFoundException("Item not found");
             var userId = _userService.GetUserIdFromClaims();

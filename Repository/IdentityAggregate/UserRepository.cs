@@ -1,12 +1,14 @@
 ﻿using System.Security.Claims;
+using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SEBO.API.Data;
 using SEBO.API.Domain.Entities.IdentityAggregate;
+using SEBO.API.Domain.Interface.Repository.IdentityAggregate;
 
 namespace SEBO.API.Repository.IdentityAggregate
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly SEBOContext _context;
         protected readonly DbSet<ApplicationUser> _dbSet;
@@ -19,9 +21,21 @@ namespace SEBO.API.Repository.IdentityAggregate
 
         }
 
-        public async Task<ApplicationUser?> GetUserByIdAsync(int id) => await _userManager.FindByIdAsync(id.ToString());
-        public async Task<ApplicationUser?> GetUserByUserNameAsync(string userName) => await _userManager.FindByNameAsync(userName);
-        public async Task<ApplicationUser?> GetUserByEmailAsync(string email) => await _userManager.FindByEmailAsync(email);
+        public async Task<(Result, ApplicationUser?)> GetUserByIdAsync(int id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            return user is null ? (Result.Fail("user not found"), null) : (Result.Ok(), user);
+        }
+        public async Task<(Result, ApplicationUser?)> GetUserByUserNameAsync(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            return user is null ? (Result.Fail("user not found"), null) : (Result.Ok(), user);
+        }
+        public async Task<(Result result, ApplicationUser? user)> GetUserByEmailAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return user is null ? (Result.Fail("user not found"), null) : (Result.Ok(), user);
+        }
         public async Task<IEnumerable<ApplicationUser>> GetActiveUsersAsync() => await _dbSet.Where(x => x.Active).ToListAsync();
         public async Task<IEnumerable<ApplicationUser>> GetAllUsersByUsernameAsync(string username) => await _dbSet.Where(user => user.UserName.Contains(username)).ToListAsync();
         public async Task<IEnumerable<ApplicationUser>?> GetAllUsersAsync() => await _dbSet.ToListAsync();

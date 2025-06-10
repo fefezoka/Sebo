@@ -2,10 +2,11 @@
 using SEBO.API.Data;
 using SEBO.API.Data.Repository.Base;
 using SEBO.API.Domain.Entities.ProductAggregate;
+using SEBO.API.Domain.Interface.Repository.ProductAggregate;
 
 namespace SEBO.API.Repository.ProductAggregate
 {
-    public class TransactionRepository : BaseRepository<Transaction>
+    public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
     {
         public TransactionRepository(SEBOContext context) : base(context) { }
 

@@ -1,8 +1,8 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
+using SEBO.API.Domain.Interface.Services.Identity;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Authentication;
-using SEBO.API.Services.Identity;
 
 namespace SEBO.API.Controllers.Identity
 {
@@ -10,9 +10,9 @@ namespace SEBO.API.Controllers.Identity
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly AuthenticationService _authenticationService;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AuthenticationController(AuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }

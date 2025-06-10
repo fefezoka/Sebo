@@ -1,9 +1,9 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SEBO.API.Domain.Interface.Services;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.TransactionDTO;
-using SEBO.API.Services;
 
 namespace SEBO.API.Controllers
 {
@@ -11,9 +11,9 @@ namespace SEBO.API.Controllers
     [ApiController]
     public class TransactionsController : ControllerBase
     {
-        private readonly TransactionService _transactionService;
+        private readonly ITransactionService _transactionService;
 
-        public TransactionsController(TransactionService transactionService)
+        public TransactionsController(ITransactionService transactionService)
         {
             _transactionService = transactionService;
         }
@@ -26,7 +26,7 @@ namespace SEBO.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<TransactionDTO>>> PostTransaction([FromBody] CreateTransactionDTO createTransactionDto) => Ok(await _transactionService.AddTransaction(createTransactionDto));
+        public async Task<ActionResult<BaseResponseDTO<TransactionDTO>>> AddTransaction([FromBody] CreateTransactionDTO createTransactionDto) => Ok(await _transactionService.AddTransaction(createTransactionDto));
 
         [HttpGet("user/{id:int}")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -34,6 +34,6 @@ namespace SEBO.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseResponseDTO<string>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(BaseResponseDTO<string>))]
-        public async Task<ActionResult<BaseResponseDTO<IEnumerable<TransactionDTO>>>> GetByUserId([FromRoute] int id) => Ok(await _transactionService.GetByUserId(id));
+        public async Task<ActionResult<BaseResponseDTO<IEnumerable<TransactionDTO>>>> GetTransactionsByUserId([FromRoute] int id) => Ok(await _transactionService.GetTransactionsByUserId(id));
     }
 }

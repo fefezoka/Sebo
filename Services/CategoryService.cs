@@ -1,16 +1,17 @@
 ﻿using SEBO.API.Domain.Entities.ProductAggregate;
+using SEBO.API.Domain.Interface.Repository.ProductAggregate;
+using SEBO.API.Domain.Interface.Services;
 using SEBO.API.Domain.Utility.Exceptions;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.CategoryDTO;
-using SEBO.API.Repository.ProductAggregate;
 
 namespace SEBO.API.Services
 {
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
-        private readonly CategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryService(CategoryRepository categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
@@ -45,7 +46,7 @@ namespace SEBO.API.Services
             return responseDTO.AddContent(new CategoryDTO(category));
         }
 
-        public async Task<BaseResponseDTO<IEnumerable<CategoryDTO>>> GetCategories()
+        public async Task<BaseResponseDTO<IEnumerable<CategoryDTO>>> GetAllCategories()
         {
             var responseDTO = new BaseResponseDTO<IEnumerable<CategoryDTO>>();
             var categories = await _categoryRepository.GetAll() ?? Enumerable.Empty<Category>();
@@ -53,6 +54,6 @@ namespace SEBO.API.Services
             return responseDTO.AddContent(categories.Select(x => new CategoryDTO(x)));
         }
 
-        public async Task DeleteById(int id) => await _categoryRepository.DeleteById(id);
+        public async Task DeleteCategoryById(int id) => await _categoryRepository.DeleteById(id);
     }
 }

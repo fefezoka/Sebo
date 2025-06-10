@@ -3,18 +3,19 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using SEBO.API.Domain.Entities.IdentityAggregate;
+using SEBO.API.Domain.Interface.Services.Identity;
 using SEBO.API.Domain.ViewModel.DTO.Base;
 using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Authentication;
 
 namespace SEBO.API.Services.Identity
 {
-    public class AuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
 
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
 
-        public AuthenticationService(SignInManager<ApplicationUser> signInManager, TokenService tokenService, IMapper mapper)
+        public AuthenticationService(SignInManager<ApplicationUser> signInManager, ITokenService tokenService, IMapper mapper)
         {
             _signInManager = signInManager;
             _tokenService = tokenService;

@@ -9,6 +9,7 @@ namespace SEBO.API.IoC
         {
             services.AddHttpClient();
             IdentityModule.AddAuthentication(services, configuration);
+            RepositoryModule.InjectDependencies(services);
             ServiceModule.InjectDependencies(services);
             MiddlewareModule.InjectDependencies(services);
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
