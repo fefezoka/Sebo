@@ -16,6 +16,8 @@ namespace SEBO.Domain.Dto.DTO.IdentityDTO.Account
         public DateTime? AlterDate { get; set; }
         public bool Active { get; set; }
 
+        public ReadUserDTO() { }
+
         public ReadUserDTO(ApplicationUser applicationUser)
         {
             Id = applicationUser.Id;

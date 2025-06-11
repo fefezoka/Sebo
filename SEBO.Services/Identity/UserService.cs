@@ -73,6 +73,16 @@ namespace SEBO.Services.Identity
             return responseDTO.AddContent(new ReadUserDTO(user));
         }
 
+        public async Task<BaseResponseDTO<ReadUserDTO>> GetUserById(int id)
+        {
+            var responseDTO = new BaseResponseDTO<ReadUserDTO>();
+            var (result, user) = await _userRepository.GetUserByIdAsync(id);
+
+            if (user == null) throw new NotFoundException("User not found");
+
+            return responseDTO.AddContent(new ReadUserDTO(user));
+        }
+
         public string GetUserEmailFromClaims()
         {
             return _httpContextAccessor.HttpContext?.User?.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
