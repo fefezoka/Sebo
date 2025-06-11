@@ -1,4 +1,4 @@
-﻿using SEBO.API.IoC;
+﻿using SEBO.Ioc;
 
 namespace SEBO.API.Dependencies
 {

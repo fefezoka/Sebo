@@ -1,10 +1,10 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
-using SEBO.API.Domain.Interface.Services.Identity;
-using SEBO.API.Domain.ViewModel.DTO.Base;
-using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Authentication;
+using SEBO.Domain.Interface.Services.Identity;
+using SEBO.Domain.Dto.DTO.Base;
+using SEBO.Domain.Dto.DTO.IdentityDTO.Authentication;
 
-namespace SEBO.API.Controllers.Identity
+namespace SEBO.Controllers.Identity
 {
     [Route("v1/[controller]")]
     [ApiController]

@@ -2,9 +2,9 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SEBO.API.Domain.Interface.Services.Identity;
-using SEBO.API.Domain.ViewModel.DTO.Base;
-using SEBO.API.Domain.ViewModel.DTO.IdentityDTO.Account;
+using SEBO.Domain.Interface.Services.Identity;
+using SEBO.Domain.Dto.DTO.Base;
+using SEBO.Domain.Dto.DTO.IdentityDTO.Account;
 
 namespace SEBO.API.Controllers.Identity
 {

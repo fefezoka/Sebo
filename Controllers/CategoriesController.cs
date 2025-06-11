@@ -1,9 +1,9 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SEBO.API.Domain.Interface.Services;
-using SEBO.API.Domain.ViewModel.DTO.Base;
-using SEBO.API.Domain.ViewModel.DTO.CategoryDTO;
+using SEBO.Domain.Interface.Services;
+using SEBO.Domain.Dto.DTO.Base;
+using SEBO.Domain.Dto.DTO.CategoryDTO;
 
 namespace SEBO.API.Controllers
 {

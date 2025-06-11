@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using SEBO.API.Data;
+using SEBO.Data.Context;
 using SEBO.API.Dependencies;
-using SEBO.API.Middleware;
+using SEBO.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +44,6 @@ builder.Services.StartRegisterServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthorization();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
