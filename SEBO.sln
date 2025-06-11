@@ -3,10 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.API", "SEBO.API.csproj", "{E07DA85A-EE39-4705-B9EC-17D34FF741D7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D8579090-0BB2-4BC8-B1B5-12110673B1B3} = {D8579090-0BB2-4BC8-B1B5-12110673B1B3}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.API", "SEBO.API\SEBO.API.csproj", "{E07DA85A-EE39-4705-B9EC-17D34FF741D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Application", "0 - Application", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -26,25 +23,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2 - Utility", "4.2 - Util
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Tests", "5 - Tests", "{E8B2A54A-3C01-4EB7-AB5B-D14B89230F59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Dto", "..\SEBO.Domain.Dto\SEBO.Domain.Dto.csproj", "{1A16DED8-979C-4839-B43B-DF71492F2944}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Dto", "SEBO.Domain.Dto\SEBO.Domain.Dto.csproj", "{1A16DED8-979C-4839-B43B-DF71492F2944}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Entities", "..\SEBO.Domain.Entities\SEBO.Domain.Entities.csproj", "{022560AE-593D-4E96-ACA8-8087882E332E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Entities", "SEBO.Domain.Entities\SEBO.Domain.Entities.csproj", "{022560AE-593D-4E96-ACA8-8087882E332E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Interface.Repository", "..\SEBO.Domain.Interface.Repository\SEBO.Domain.Interface.Repository.csproj", "{D765F2CA-6F7C-494A-AEC3-C4417C0B6EB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Interface.Repository", "SEBO.Domain.Interface.Repository\SEBO.Domain.Interface.Repository.csproj", "{D765F2CA-6F7C-494A-AEC3-C4417C0B6EB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Interface.Services", "..\SEBO.Domain.Interface.Services\SEBO.Domain.Interface.Services.csproj", "{715EC804-E130-4CAE-AB9E-78D12802723C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Interface.Services", "SEBO.Domain.Interface.Services\SEBO.Domain.Interface.Services.csproj", "{715EC804-E130-4CAE-AB9E-78D12802723C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Utility", "..\SEBO.Domain.Utility\SEBO.Domain.Utility.csproj", "{4EC27FF8-0DEB-4AD1-B310-99928496A874}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Domain.Utility", "SEBO.Domain.Utility\SEBO.Domain.Utility.csproj", "{4EC27FF8-0DEB-4AD1-B310-99928496A874}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Data.Context", "..\SEBO.Data.Context\SEBO.Data.Context.csproj", "{DD513AD5-EAFE-47A2-845F-F09AB75BDE2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Data.Context", "SEBO.Data.Context\SEBO.Data.Context.csproj", "{DD513AD5-EAFE-47A2-845F-F09AB75BDE2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Data.Repository", "..\SEBO.Data.Repository\SEBO.Data.Repository.csproj", "{67FB353F-7051-42B1-B9E9-7A6BFA5A2520}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Data.Repository", "SEBO.Data.Repository\SEBO.Data.Repository.csproj", "{67FB353F-7051-42B1-B9E9-7A6BFA5A2520}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Services", "..\SEBO.Services\SEBO.Services.csproj", "{A9D188B4-63D7-4CFB-9DEE-2A441EFE766C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Services", "SEBO.Services\SEBO.Services.csproj", "{A9D188B4-63D7-4CFB-9DEE-2A441EFE766C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Ioc", "..\SEBO.Ioc\SEBO.Ioc.csproj", "{D8579090-0BB2-4BC8-B1B5-12110673B1B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Ioc", "SEBO.Ioc\SEBO.Ioc.csproj", "{D8579090-0BB2-4BC8-B1B5-12110673B1B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Middleware", "..\SEBO.Middleware\SEBO.Middleware.csproj", "{F023A4DC-070F-4D65-A33B-57D7C923C3E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEBO.Middleware", "SEBO.Middleware\SEBO.Middleware.csproj", "{F023A4DC-070F-4D65-A33B-57D7C923C3E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
