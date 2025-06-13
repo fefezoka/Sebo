@@ -1,15 +1,20 @@
+networks:
+  main:
+  logs:
+    external: true
+
 services:
   backend:
-    build: ./SEBO.API/.
+    build: .
     depends_on:
-      - postgres
+      - sqlserver
     ports:
-      - "127.0.0.1:3501:3001"
+      - '127.0.0.1:3501:3001'
     environment:
       - PathBase=/api
       - ASPNETCORE_ENVIRONMENT
       - ASPNETCORE_URLS=http://+:3001
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=SeboDb;User=sa;Password=SenhaForte123!;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;User=sa;Password=SenhaForte123!;TrustServerCertificate=True;
     volumes:
       - ./logs/backend:/app/logs
       - ./keys:/root/.aspnet/DataProtection-Keys
@@ -20,11 +25,16 @@ services:
     pull_policy: build
 
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-express
+    image: mcr.microsoft.com/mssql/server
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=SenhaForte123!
     ports:
-      - "1433:1433"
+      - '1433:1433'
     volumes:
       - sql_data:/var/opt/mssql
+    networks:
+      - main
+
+volumes:
+  sql_data:
